@@ -70,7 +70,7 @@ class ListTableViewController: UITableViewController,NSFetchedResultsControllerD
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
         
-        let journeyObject = fetchedResultsController.object(at: indexPath)
+        let journeyObject = fetchedResultsController.object(at: indexPath) // identifying Journeys by their startTime.
         let startTime = journeyObject.startDate
         let endTime = journeyObject.endDate
         let formatter = DateFormatter()
@@ -142,7 +142,8 @@ class ListTableViewController: UITableViewController,NSFetchedResultsControllerD
             }
             selectedPath=listOfLocations
         }
-        
+        // pass path to detail map - we could compute statistics on speed,
+        // length, climbing speed, etc, as we have recorded CLLocation data on Core Data.
         if (segue.identifier=="detailMapSegue"){
             let vc  = segue.destination as! DetailMapViewController
             vc.currentPath = selectedPath

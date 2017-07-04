@@ -28,6 +28,8 @@ class DetailMapViewController: UIViewController,MKMapViewDelegate {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.setupMap()
+        
+        // setup polyline and add it as an overlay to the map
         if (currentPath.count>1){
             self.currentPolyline = MKPolyline.init(coordinates: &currentPath, count: currentPath.count)
             mapView.add(currentPolyline!, level: MKOverlayLevel.aboveRoads)
@@ -55,6 +57,7 @@ class DetailMapViewController: UIViewController,MKMapViewDelegate {
     // MARK: MapView Delegate
     // delegate needed in order to display Polyline on MKMap
     
+    // polyline renderer
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
         let renderer = MKPolylineRenderer(overlay: overlay)
         renderer.strokeColor = UIColor.red
@@ -86,15 +89,4 @@ class DetailMapViewController: UIViewController,MKMapViewDelegate {
         
     }
 
-    
-    // handles path recovery (when app is awakened from background)
-    func handlePathRecovery (notification: Notification)  {
-        print (notification)
-        var locations = notification.object as! [CLLocationCoordinate2D]
-        if (locations.count>1){
-            self.currentPolyline = MKPolyline.init(coordinates: &locations, count: locations.count)
-            mapView.add(currentPolyline!, level: MKOverlayLevel.aboveRoads)
-        }
-        
-    }
 }

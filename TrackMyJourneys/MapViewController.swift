@@ -68,12 +68,12 @@ class MapViewController: UIViewController,MKMapViewDelegate {
     override func viewDidAppear(_ animated: Bool) {
         super .viewDidAppear(animated)
         
+        // subscribe for UI refresh notifications
         NotificationCenter.default.addObserver(self, selector:  #selector(MapViewController.handleCoordinatesChange(notification:)), name: NSNotification.Name(kLocationUpdated), object: nil)
-        
         NotificationCenter.default.addObserver(self, selector:  #selector(MapViewController.handlePathRecovery(notification:)), name: NSNotification.Name(kLocationsRecovered), object: nil)
     }
 
-    
+    // unsubscribe from notifications
     override func viewWillDisappear(_ animated: Bool) {
         NotificationCenter.default.removeObserver(self)
     }
@@ -81,7 +81,6 @@ class MapViewController: UIViewController,MKMapViewDelegate {
     
     // MARK: MapView Delegate
     // delegate needed in order to display Polyline on MKMap
-    
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
         let renderer = MKPolylineRenderer(overlay: overlay)
         renderer.strokeColor = UIColor.red
