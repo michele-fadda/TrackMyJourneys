@@ -8,15 +8,25 @@
 
 import UIKit
 import CoreData
+import CoreLocation
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+
+
+
+class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate {
 
     var window: UIWindow?
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        
+        coreLocationManager.delegate=self
+        coreLocationManager.requestAlwaysAuthorization()
+        coreLocationManager.allowsBackgroundLocationUpdates=true
+        coreLocationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
+        coreLocationManager.startUpdatingLocation()
         return true
     }
 
@@ -28,14 +38,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationDidEnterBackground(_ application: UIApplication) {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+        
+        // stop using the battery if we are not logging the path
+        if isTrackingEnabled==false{
+            coreLocationManager.stopUpdatingLocation()
+        }
+        
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
         // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
+
+        coreLocationManager.startUpdatingLocation()
+
     }
 
     func applicationDidBecomeActive(_ application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+        
+        if isTrackingEnabled {
+            NotificationCenter.default.post(name: Notification.Name(kLocationsRecovered), object: currentLocations)
+        }
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
@@ -87,6 +110,107 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
             }
         }
+    }
+    
+    
+    
+    
+    
+    // MARK Tracking Data
+    
+    var isTrackingEnabled = false
+    
+    var currentLocations: [CLLocation] = []
+
+    var startTime:Date? = nil
+    var stopTime:Date? = nil
+
+    
+    func startLogging(){
+        isTrackingEnabled=true
+        
+        // start a new Journey
+        startTime=Date()
+        stopTime=nil
+        currentLocations.removeAll()  // clear current path
+        
+
+    }
+    
+    func stopLogging(){
+        isTrackingEnabled=false
+        
+        // end current Journey
+        stopTime=Date()
+        
+        if currentLocations.count>1 {
+            let context=persistentContainer.newBackgroundContext()
+            let journeyObject = Journey(context: context)
+            journeyObject.startDate=startTime! as NSDate
+            journeyObject.endDate=stopTime! as NSDate
+            for location in currentLocations {
+                let pointObject = Point(context: context)
+                pointObject.latitude = location.coordinate.latitude
+                pointObject.longitude = location.coordinate.longitude
+                pointObject.timestamp = location.timestamp as NSDate
+                pointObject.speed=location.speed
+                pointObject.altitude=location.altitude
+                journeyObject.addToPoint(pointObject)
+            }
+            do {
+                try context.save()
+            } catch {
+                print (error)
+            }
+            
+        }
+    }
+    
+    // MARK Core Location Manager and Position
+    lazy var coreLocationManager = CLLocationManager()
+    var currentCoordinates : (lat: CLLocationDegrees, lon: CLLocationDegrees) = (0,0)
+    
+    // MARK: Core Location Delegate
+    
+    //
+    // App received location update
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        print (locations)
+        
+        // filter CoreLocation notifications:
+        // we are only interested in new coordinates
+        for location in locations {
+            let coordinates = (
+                lat:location.coordinate.latitude,
+                lon:location.coordinate.longitude )
+            if currentCoordinates != coordinates { // are these new coordinates?
+                currentCoordinates = coordinates
+                
+                // inform MapViewVontroller UI about new coordinates
+                NotificationCenter.default.post(name: Notification.Name(kLocationUpdated), object: location)
+                currentLocations.append(location)
+            }
+        }
+        
+        
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        print ("changed")
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didEnterRegion region: CLRegion) {
+        print ("calibration needed")
+    }
+    func locationManager(_ manager: CLLocationManager, didUpdateHeading newHeading: CLHeading) {
+        print ("updated heading")
+        
+    }
+    func locationManagerDidPauseLocationUpdates(_ manager: CLLocationManager) {
+        print ("paused updates")
+    }
+    func locationManagerDidResumeLocationUpdates(_ manager: CLLocationManager) {
+        print ("resumed updates")
     }
 
 }

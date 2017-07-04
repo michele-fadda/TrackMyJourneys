@@ -7,14 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		95409CDD1F0C3B500081BB39 /* DetailMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95409CDC1F0C3B500081BB39 /* DetailMapViewController.swift */; };
+		957509BD1F0B004800D101BC /* ListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 957509BC1F0B004800D101BC /* ListTableViewController.swift */; };
 		95D807CE1F0ADD360058205A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D807CD1F0ADD360058205A /* AppDelegate.swift */; };
-		95D807D01F0ADD360058205A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D807CF1F0ADD360058205A /* ViewController.swift */; };
+		95D807D01F0ADD360058205A /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D807CF1F0ADD360058205A /* MapViewController.swift */; };
 		95D807D31F0ADD360058205A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 95D807D11F0ADD360058205A /* Main.storyboard */; };
 		95D807D61F0ADD360058205A /* TrackMyJourneys.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 95D807D41F0ADD360058205A /* TrackMyJourneys.xcdatamodeld */; };
 		95D807D81F0ADD360058205A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 95D807D71F0ADD360058205A /* Assets.xcassets */; };
 		95D807DB1F0ADD360058205A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 95D807D91F0ADD360058205A /* LaunchScreen.storyboard */; };
 		95D807E61F0ADD360058205A /* TrackMyJourneysTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D807E51F0ADD360058205A /* TrackMyJourneysTests.swift */; };
 		95D807F11F0ADD360058205A /* TrackMyJourneysUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D807F01F0ADD360058205A /* TrackMyJourneysUITests.swift */; };
+		95D808011F0AE3370058205A /* NSNotificationKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D808001F0AE3370058205A /* NSNotificationKeys.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -35,9 +38,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		95409CDC1F0C3B500081BB39 /* DetailMapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailMapViewController.swift; sourceTree = "<group>"; };
+		957509BC1F0B004800D101BC /* ListTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListTableViewController.swift; sourceTree = "<group>"; };
 		95D807CA1F0ADD360058205A /* TrackMyJourneys.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TrackMyJourneys.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		95D807CD1F0ADD360058205A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		95D807CF1F0ADD360058205A /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		95D807CF1F0ADD360058205A /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		95D807D21F0ADD360058205A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		95D807D51F0ADD360058205A /* TrackMyJourneys.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = TrackMyJourneys.xcdatamodel; sourceTree = "<group>"; };
 		95D807D71F0ADD360058205A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -49,6 +54,7 @@
 		95D807EC1F0ADD360058205A /* TrackMyJourneysUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TrackMyJourneysUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		95D807F01F0ADD360058205A /* TrackMyJourneysUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackMyJourneysUITests.swift; sourceTree = "<group>"; };
 		95D807F21F0ADD360058205A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		95D808001F0AE3370058205A /* NSNotificationKeys.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSNotificationKeys.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -100,12 +106,15 @@
 			isa = PBXGroup;
 			children = (
 				95D807CD1F0ADD360058205A /* AppDelegate.swift */,
-				95D807CF1F0ADD360058205A /* ViewController.swift */,
+				957509BC1F0B004800D101BC /* ListTableViewController.swift */,
+				95D807CF1F0ADD360058205A /* MapViewController.swift */,
 				95D807D11F0ADD360058205A /* Main.storyboard */,
 				95D807D71F0ADD360058205A /* Assets.xcassets */,
 				95D807D91F0ADD360058205A /* LaunchScreen.storyboard */,
 				95D807DC1F0ADD360058205A /* Info.plist */,
 				95D807D41F0ADD360058205A /* TrackMyJourneys.xcdatamodeld */,
+				95D808001F0AE3370058205A /* NSNotificationKeys.swift */,
+				95409CDC1F0C3B500081BB39 /* DetailMapViewController.swift */,
 			);
 			path = TrackMyJourneys;
 			sourceTree = "<group>";
@@ -198,6 +207,11 @@
 						CreatedOnToolsVersion = 8.3.3;
 						DevelopmentTeam = 8587GH7B59;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+						};
 					};
 					95D807E01F0ADD360058205A = {
 						CreatedOnToolsVersion = 8.3.3;
@@ -265,9 +279,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				95D807D01F0ADD360058205A /* ViewController.swift in Sources */,
+				95409CDD1F0C3B500081BB39 /* DetailMapViewController.swift in Sources */,
+				95D807D01F0ADD360058205A /* MapViewController.swift in Sources */,
 				95D807D61F0ADD360058205A /* TrackMyJourneys.xcdatamodeld in Sources */,
 				95D807CE1F0ADD360058205A /* AppDelegate.swift in Sources */,
+				957509BD1F0B004800D101BC /* ListTableViewController.swift in Sources */,
+				95D808011F0AE3370058205A /* NSNotificationKeys.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -518,6 +535,7 @@
 				95D807F71F0ADD360058205A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		95D807F81F0ADD360058205A /* Build configuration list for PBXNativeTarget "TrackMyJourneysTests" */ = {
 			isa = XCConfigurationList;
@@ -526,6 +544,7 @@
 				95D807FA1F0ADD360058205A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		95D807FB1F0ADD360058205A /* Build configuration list for PBXNativeTarget "TrackMyJourneysUITests" */ = {
 			isa = XCConfigurationList;
@@ -534,6 +553,7 @@
 				95D807FD1F0ADD360058205A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 
