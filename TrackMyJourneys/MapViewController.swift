@@ -155,12 +155,12 @@ class MapViewController: UIViewController,MKMapViewDelegate {
     
     // handles path recovery (when app is awakened from background)
     func handlePathRecovery (notification: Notification)  {
-        print (notification)
-        var locations = notification.object as! [CLLocationCoordinate2D]
-        if (locations.count>1){
-            self.currentPolyline = MKPolyline.init(coordinates: &locations, count: locations.count)
+        guard let  locations = notification.object as? [CLLocationCoordinate2D] // unsafe cast!
+            else { return }
+            if (locations.count>1){
+            self.currentPolyline = MKPolyline.init(coordinates: locations, count: locations.count)
             mapView.add(currentPolyline!, level: MKOverlayLevel.aboveRoads)
-        }
+            }
         
     }
 }

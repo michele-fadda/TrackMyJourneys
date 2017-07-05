@@ -28,7 +28,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         coreLocationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
         guard CLLocationManager.locationServicesEnabled()==true
             else {
-                // Update your app’s UI to show that the location is unavailable.
+                // Update app’s UI to show that the location is unavailable.
                 isLocationUnavailable=true
                 return true
         }
@@ -70,6 +70,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
         
         if isTrackingEnabled {
+            
+            guard currentLocations.count > 1 else {
+                return
+            }
             NotificationCenter.default.post(name: Notification.Name(kLocationsRecovered), object: currentLocations)
         }
     }
