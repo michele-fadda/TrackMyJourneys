@@ -26,6 +26,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         coreLocationManager.requestAlwaysAuthorization()
         coreLocationManager.allowsBackgroundLocationUpdates=true
         coreLocationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
+        guard CLLocationManager.locationServicesEnabled()==true
+            else {
+                // Update your app’s UI to show that the location is unavailable.
+                isLocationUnavailable=true
+                return true
+        }
+        isLocationUnavailable=false
         coreLocationManager.startUpdatingLocation()
         return true
     }
@@ -48,7 +55,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
 
     func applicationWillEnterForeground(_ application: UIApplication) {
         // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
-
+        guard CLLocationManager.locationServicesEnabled()==false
+            else {
+                // Update your app’s UI to show that the location is unavailable.
+                isLocationUnavailable=true
+                return
+        }
+        isLocationUnavailable=false
         coreLocationManager.startUpdatingLocation()
 
     }
@@ -119,6 +132,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
     // MARK Tracking Data
     
     var isTrackingEnabled = false
+    var isLocationUnavailable = false
     
     var currentLocations: [CLLocation] = []
 

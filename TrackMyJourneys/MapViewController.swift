@@ -31,6 +31,11 @@ class MapViewController: UIViewController,MKMapViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
          mapView.delegate = self
+        if appDelegate.isLocationUnavailable { // alert the user that location services are not available
+            let alert = UIAlertController(title: "Alert", message: NSLocalizedString("Location services are not available", comment: ""), preferredStyle: UIAlertControllerStyle.alert)
+            alert.addAction(UIAlertAction(title: "Error!", style: UIAlertActionStyle.default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
