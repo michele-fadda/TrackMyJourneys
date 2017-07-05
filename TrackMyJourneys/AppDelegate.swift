@@ -47,12 +47,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
         
         // stop using the battery if we are not logging the path
-        if isTrackingEnabled==false{
+        if isTrackingEnabled==false || coreLocationManager.allowsBackgroundLocationUpdates==false {
             coreLocationManager.stopUpdatingLocation()
+        } else if CLLocationManager.deferredLocationUpdatesAvailable() {
+            // and use it as little as we can
+            coreLocationManager.allowDeferredLocationUpdates(untilTraveled: 300, timeout: 5)
         }
         
     }
 
+    
     func applicationWillEnterForeground(_ application: UIApplication) {
         // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
         guard CLLocationManager.locationServicesEnabled()==false
@@ -62,7 +66,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
                 return
         }
         isLocationUnavailable=false
-        coreLocationManager.startUpdatingLocation()
+        if CLLocationManager.deferredLocationUpdatesAvailable() && isTrackingEnabled {
+            coreLocationManager.disallowDeferredLocationUpdates() // cancel deferred updates 
+        
+        }
+        
+        coreLocationManager.startUpdatingLocation() // start normal location updates anyway
 
     }
 
@@ -130,9 +139,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
     }
     
     
-    
-    
-    
     // MARK Tracking Data
     
     var isTrackingEnabled = false
@@ -190,10 +196,33 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
     
     // MARK: Core Location Delegate
     
+    // App received location error
+    func locationManager(_ manager: CLLocationManager, didFinishDeferredUpdatesWithError error: Error?) {
+         print (error?.localizedDescription ?? "location error!")
+    }
+    
     //
     // App received location update
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        print (locations)
+        // print (locations)
+        
+        // filter CoreLocation notifications:
+        // we are only interested in new coordinates
+        for location in locations {
+            let coordinates = (
+                lat:location.coordinate.latitude,
+                lon:location.coordinate.longitude )
+            if currentCoordinates != coordinates { // are these new coordinates?
+                currentCoordinates = coordinates
+                
+                // inform MapViewVontroller UI about new coordinates
+                NotificationCenter.default.post(name: Notification.Name(kLocationUpdated), object: location)
+                currentLocations.append(location)
+            }
+        }
+    }
+    func locationManager(_ manager: CLLocationManager,  locations: [CLLocation]) {
+        // print (locations)
         
         // filter CoreLocation notifications:
         // we are only interested in new coordinates
