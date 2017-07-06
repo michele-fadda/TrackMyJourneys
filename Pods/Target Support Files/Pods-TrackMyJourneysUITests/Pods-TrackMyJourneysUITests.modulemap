@@ -1,0 +1,6 @@
+framework module Pods_TrackMyJourneysUITests {
+  umbrella header "Pods-TrackMyJourneysUITests-umbrella.h"
+
+  export *
+  module * { export * }
+}

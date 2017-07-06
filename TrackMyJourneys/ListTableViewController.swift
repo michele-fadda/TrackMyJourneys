@@ -77,12 +77,17 @@ class ListTableViewController: UITableViewController,NSFetchedResultsControllerD
         formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
         
         let startString = formatter.string(from: (startTime! as Date))
-        let endString = formatter.string(from: (endTime! as Date))
+        var endString : String
+        if  endTime != nil { // not currently running
+            endString = formatter.string(from: (endTime! as Date))
+        }
+            else { // still running and logging, no end date!
+            endString = NSLocalizedString( "Unknown!", comment: "")
+        }
         
-        cell.textLabel!.text = "Start "+startString
-        cell.detailTextLabel?.text="Stop "+endString
+        cell.textLabel!.text = "Start: "+startString
+        cell.detailTextLabel?.text="Stop: "+endString
         
-        cell.accessoryType=UITableViewCellAccessoryType.disclosureIndicator
         return cell
     }
     
@@ -135,21 +140,36 @@ class ListTableViewController: UITableViewController,NSFetchedResultsControllerD
             var listOfLocations=[CLLocationCoordinate2D]()
             for point in listOfPoints {
                 let aPoint = (point as! Point)
-                print (aPoint.latitude)
-                print (aPoint.longitude)
                 let location = CLLocationCoordinate2D(latitude: aPoint.latitude, longitude: aPoint.longitude)
                 listOfLocations.append(location)
             }
             selectedPath=listOfLocations
+            
         }
         // pass path to detail map - we could compute statistics on speed,
         // length, climbing speed, etc, as we have recorded CLLocation data on Core Data.
         if (segue.identifier=="detailMapSegue"){
             let vc  = segue.destination as! DetailMapViewController
             vc.currentPath = selectedPath
-        }
-    }
-    
-    
+        } else if (segue.identifier=="accessoryInfoSegue") {
+            let vc  = segue.destination as! InfoTableViewController
+            let journey:Journey = fetchedResultsController.object(at: selectedIndex!)
+            if let listOfPoints = journey.point {
 
+                var listOfLocations=[CLLocation]() // data array for Info
+                for point in listOfPoints {
+                    let aPoint = (point as! Point)
+                    let cllLocation2d = CLLocationCoordinate2D(latitude: aPoint.latitude, longitude: aPoint.longitude)
+                    let altitude = aPoint.altitude
+                    let speed = aPoint.speed
+                    let timeStamp = aPoint.timestamp
+                    let location = CLLocation(coordinate: cllLocation2d, altitude: altitude, horizontalAccuracy: 0, verticalAccuracy: 0, course: 0, speed: speed, timestamp: timeStamp! as Date)
+                    listOfLocations.append(location)
+                }
+            vc.locations = listOfLocations
+            }
+          }
+    
+    
+    }
 }

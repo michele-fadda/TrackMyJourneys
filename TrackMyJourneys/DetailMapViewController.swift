@@ -19,6 +19,7 @@ class DetailMapViewController: UIViewController,MKMapViewDelegate {
     // current path being shown
     var currentPath : [ CLLocationCoordinate2D ] = []
     var currentPolyline : MKPolyline?
+    var startDate : Date?
     
     override func viewDidLoad() {
         super.viewDidLoad()
