@@ -32,8 +32,12 @@
 	<array>
 		<string>armv7</string>
 	</array>
-	<key>NSLocationAlwaysUsageDescription</key>
+    <key>NSLocationAlwaysUsageDescription</key>
+    <string>TrackMy Journeys tracks and displays the path followed by the user when the app is in background.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>TrackMy Journeys tracks and displays the path followed by the user when the app is in background.</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Allow TrackMyJourneys to track user position</string>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
